@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const {ShoppingList} = require('./models');
+const {Recipes} = require('./models');
 
 const jsonParser = bodyParser.json();
 const app = express();
@@ -22,6 +23,18 @@ ShoppingList.create('peppers', 4);
 // all current ShoppingList items
 app.get('/shopping-list', (req, res) => {
   res.json(ShoppingList.get());
+});
+
+// we're going to add some Recipes
+// so there's some data to look at
+Recipes.create('chocolate milk', ['cocoa', 'milk', 'sugar']);
+Recipes.create('omelet', ['eggs', 'salt', 'pepper', 'oil']);
+Recipes.create('garlic bread', ['bread', 'garlic', 'oil']);
+
+// when the root of this router is called with GET, return
+// all current Recipes items
+app.get('/recipes', (req, res) => {
+  res.json(Recipes.get());
 });
 
 app.listen(process.env.PORT || 8080, () => {
